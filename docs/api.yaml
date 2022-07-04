@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: SquadMakersTest
+  description: API Rest for SquadMakersTest
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: API Rest for SquadMakersTest
+
+paths:
+  /jokes:
+    get:
+      tags:
+        - Jokes
+      summary: Returns a ramdom joke.
+      description: ramdom "Chuck Norris" or "Dad"jokes from https://api.chucknorris.io/jokes/random, https://icanhazdadjoke.com/ respectively.
+      responses:
+        "200": # status code
+          description: A JSON object of ramdom joke.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ramdom_joke:
+                    type: string
+                example:
+                  ramdom_joke: "A Sandwich walks into a bar, the bartender says “Sorry, we don’t serve food here"
+    post:
+      tags:
+        - Jokes
+      summary: Creates a new joke.
+      requestBody:
+        description: A JSON object of a new joke.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                joke:
+                  type: string
+              example: # Sample JSON object
+                joke: Knock, knock, I'm a Joke.
+      responses:
+        "200": # status code
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: Joke {number} added successfully.
+    put:
+      tags:
+        - Jokes
+      summary: Edit a joke text by the number.
+      requestBody:
+        description: A JSON object of existing number joke and text joke to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: string
+                joke:
+                  type: string
+              example: # Sample JSON object
+                number: 2
+                joke: Knock, knock, I'm a not Joke.
+      responses:
+        "200": # status code
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example: # Sample JSON object
+                  message: Joke {number} modified successfully.
+    delete:
+      tags:
+        - Jokes
+      summary: Delete a joke by the number.
+      requestBody:
+        description: A JSON object of existing number joke to delete.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: string
+              example: # Sample JSON object
+                number: 2
+      responses:
+        "200": # status code
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example: # Sample JSON object
+                  message: Joke {number} deleted successfully.
+
+  /jokes/{joke_type}:
+    get:
+      tags:
+        - Jokes
+      summary: Returns an specific joke.
+      description: ramdom "Chuck Norris" or "Dad"jokes from https://api.chucknorris.io/jokes/random, https://icanhazdadjoke.com/ respectively.
+      parameters:
+        - name: joke_type
+          in: path
+          description: Type of joke to return.
+          required: true
+          schema:
+            type: string
+            enum:
+              - Chuck
+              - Dad
+      responses:
+        "200": # status code
+          description: A JSON object of the specific type joke.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dad joke:
+                    type: string
+                  chuck joke:
+                    type: string
+  /math/:
+    get:
+      tags:
+        - Math
+      summary: mathematical operations.
+      description: depending on the parameters, returns the result of the operation.
+      parameters:
+        - in: query
+          name: numbers
+          description: Calculate the least common multiple of the numbers.
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: number
+          description: Calculate the number + 1.
+          required: true
+          schema:
+            properties:
+              number:
+                type: integer
+      responses:
+        "200": # status code
+          description: A JSON object of the specific type joke.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
